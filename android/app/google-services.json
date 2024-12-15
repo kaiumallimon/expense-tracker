@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65011565850",
+    "project_id": "exsync-f6840",
+    "storage_bucket": "exsync-f6840.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65011565850:android:4eb9a55f2751a22cd318a3",
+        "android_client_info": {
+          "package_name": "org.bcrypt.expense_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA84sJG68xRSTRfEYSMMDWAUY76vcEwarI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
