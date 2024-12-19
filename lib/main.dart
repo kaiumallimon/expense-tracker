@@ -1,4 +1,6 @@
 import 'package:expense_tracker/common/theme/theming.dart';
+import 'package:expense_tracker/features/auth/login/logics/login_bloc.dart';
+import 'package:expense_tracker/features/auth/register/logics/register_bloc.dart';
 import 'package:expense_tracker/features/startup/splash/presentation/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ void main() async {
   await Firebase.initializeApp();
 
   // run the app
-  runApp(ExSyncApp());
+  runApp(const ExSyncApp());
 }
 
 class ExSyncApp extends StatelessWidget {
@@ -20,11 +22,19 @@ class ExSyncApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ExSync',
-      theme: getTheme(),
-      home: SplashScreen(),
+    return MultiBlocProvider(
+      providers: [
+        // Register bloc
+        BlocProvider<RegisterBloc>(create: (context) => RegisterBloc()),
+        // Login bloc
+        BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'ExSync',
+        theme: getTheme(),
+        home: SplashScreen(),
+      ),
     );
   }
 }
