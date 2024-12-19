@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData getTheme() => ThemeData(
       // font family
-      fontFamily: GoogleFonts.inter().fontFamily,
+      fontFamily: GoogleFonts.poppins().fontFamily,
       // color scheme: all the colors used in the app
       colorScheme: const ColorScheme(
           brightness: Brightness.dark,
@@ -11,7 +11,7 @@ ThemeData getTheme() => ThemeData(
           onPrimary: Colors.white,
           secondary: Color(0xFF183856),
           onSecondary: Colors.white,
-          tertiary: Color(0xFF183856),
+          tertiary: Color(0xFFEF476F),
           onTertiary: Colors.white,
           error: Colors.red,
           onError: Colors.white,
