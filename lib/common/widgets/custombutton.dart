@@ -9,6 +9,8 @@ class CustomButton extends StatelessWidget {
       required this.onPressed,
       required this.color,
       required this.textColor,
+      this.elevation = 1,
+      this.shadowColor = Colors.transparent,
       required this.isBordered});
   final double width;
   final double height;
@@ -17,6 +19,8 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final bool isBordered;
+  final double? elevation;
+  final Color? shadowColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +39,13 @@ class CustomButton extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary, width: 1.5)
                   : BorderSide.none,
             ),
+            elevation: elevation,
+            shadowColor: shadowColor,
           ),
           child: Text(
             text,
             style: TextStyle(
+                fontWeight: FontWeight.w500,
                 color: isBordered
                     ? Theme.of(context).colorScheme.primary
                     : textColor),
