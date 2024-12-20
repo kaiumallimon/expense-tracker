@@ -24,3 +24,17 @@ class AddIncomeSubmitted extends AddEvent {
 }
 
 
+class AddExpenseSubmitted extends AddEvent {
+  final String uid;
+  final double expense;
+  final String description;
+
+  const AddExpenseSubmitted({
+    required this.uid,
+    required this.expense,
+    required this.description
+  });
+
+  @override
+  List<Object> get props => [uid, expense, description];
+}
