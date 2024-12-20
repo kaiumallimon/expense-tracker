@@ -53,6 +53,8 @@ class _AddScreenState extends State<AddScreen> {
           // Clear the text fields
           _incomeAmountController.clear();
           _descriptionController.clear();
+          _expenseAmountController.clear();
+          _expenseDescriptionController.clear();
         }
 
         if (state is AddFailure) {
@@ -249,20 +251,144 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
               )
+            else if (_selectedType == 'Expense')
+              Expanded(
+                  child: SingleChildScrollView(
+                      child: Container(
+                          padding: EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            color: theme.primary.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Add Expense Details',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                  ],
+                                ),
+                                const SizedBox(height: 30),
+                                Text('Expense Amount',
+                                    style: TextStyle(
+                                      color: theme.onSurface,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                const SizedBox(height: 10),
+                                CustomTextField(
+                                  controller: _expenseAmountController,
+                                  hintText: "E.g. 1500 BDT",
+                                  isPassword: false,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                    signed: false,
+                                  ),
+                                  borderColor: theme.onSurface.withOpacity(.15),
+                                  width: double.infinity,
+                                  height: 50,
+                                  isBordered: false,
+                                  backgroundColor:
+                                      theme.onSurface.withOpacity(.15),
+                                  textColor: theme.onSurface,
+                                  hintColor: theme.onSurface.withOpacity(.5),
+                                  leadingIcon: Icon(CupertinoIcons.money_dollar,
+                                      color: theme.primary),
+                                ),
+                                const SizedBox(height: 20),
+                                Text('Description',
+                                    style: TextStyle(
+                                      color: theme.onSurface,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                const SizedBox(height: 10),
+                                CustomTextField(
+                                  controller: _expenseDescriptionController,
+                                  hintText: "E.g. Grocery",
+                                  isPassword: false,
+                                  keyboardType: TextInputType.text,
+                                  borderColor: theme.onSurface.withOpacity(.15),
+                                  width: double.infinity,
+                                  height: 50,
+                                  isBordered: false,
+                                  backgroundColor:
+                                      theme.onSurface.withOpacity(.15),
+                                  textColor: theme.onSurface,
+                                  hintColor: theme.onSurface.withOpacity(.5),
+                                  leadingIcon: Icon(Icons.description,
+                                      color: theme.primary),
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                // Add button
+
+                                CustomButton(
+                                    width: double.infinity,
+                                    height: 50,
+                                    text: "Add Expense",
+                                    onPressed: () async {
+                                      final pref =
+                                          await SharedPreferences.getInstance();
+                                      final uid = pref.getString('uid');
+
+                                      if (_expenseAmountController.text
+                                              .trim()
+                                              .isEmpty ||
+                                          double.parse(_expenseAmountController
+                                                  .text) <=
+                                              0) {
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.error,
+                                          title: 'Error',
+                                          text:
+                                              'Expense amount must be greater than 0!',
+                                          barrierDismissible: false,
+                                        );
+                                      } else {
+                                        final double expenseAmount =
+                                            double.parse(
+                                                _expenseAmountController.text);
+                                        final String description =
+                                            _expenseDescriptionController.text;
+                                        BlocProvider.of<AddBloc>(context).add(
+                                          AddExpenseSubmitted(
+                                            uid: uid!,
+                                            expense: expenseAmount,
+                                            description: description,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    color: theme.primary,
+                                    textColor: theme.onPrimary,
+                                    isBordered: false)
+                              ]))))
           ],
         ),
       ),
     );
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   _selectedType = null;
-  //   _incomeAmountController.dispose();
-  //   _descriptionController.dispose();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    _selectedType = null;
+    _incomeAmountController.dispose();
+    _descriptionController.dispose();
+    _expenseAmountController.dispose();
+    _expenseDescriptionController.dispose();
+  }
 
   final _incomeAmountController = TextEditingController();
   final _descriptionController = TextEditingController();
+
+  final _expenseAmountController = TextEditingController();
+  final _expenseDescriptionController = TextEditingController();
 }
