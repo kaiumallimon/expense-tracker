@@ -20,39 +20,40 @@ class CustomBottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: NavigationBar(
-        surfaceTintColor: theme.primary,
-        indicatorColor: theme.primary,
-        backgroundColor: theme.surface,
-        selectedIndex: currentIndex,
-        onDestinationSelected: (int index) {
-          BlocProvider.of<NavigationCubit>(context).changeIndex(index);
-        },
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
+    return NavigationBar(
+      surfaceTintColor: theme.primary,
+      indicatorColor: theme.primary,
+      backgroundColor: theme.surface,
+      selectedIndex: currentIndex,
+      onDestinationSelected: (int index) {
+        BlocProvider.of<NavigationCubit>(context).changeIndex(index);
+      },
+      destinations: <Widget>[
+        const NavigationDestination(
+          icon: Icon(Icons.home_filled),
+          label: 'Home',
+        ),
+        NavigationDestination(
+          icon: Image.asset(
+            'assets/icons/transaction.png',
+            width: 24,
+            color: selectedIndex == 1 ? theme.onPrimary : theme.onSurface,
           ),
-          NavigationDestination(
-            icon: Icon(Icons.history),
-            label: 'Txns',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.add),
-            label: 'Add',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.calendar_month),
-            label: 'View',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+          label: 'Txns',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.add),
+          label: 'Add',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.calendar_month),
+          label: 'Track',
+        ),
+        const NavigationDestination(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
     );
   }
 }
