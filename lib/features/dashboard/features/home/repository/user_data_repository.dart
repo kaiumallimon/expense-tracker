@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataRepository {
-  Future<Map<String,dynamic>> getUserData()async{
+  Future<Map<String, dynamic>> getUserData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String name = prefs.getString('name') ?? '';
@@ -17,5 +17,11 @@ class UserDataRepository {
       'phone': phone,
       'location': location
     };
+  }
+
+  Future<String> getUserUID() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('uid') ??
+        ''; // Return empty string if UID is not set
   }
 }
