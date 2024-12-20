@@ -1,21 +1,44 @@
 import 'package:expense_tracker/features/auth/login/presentation/login_screen.dart';
+import 'package:expense_tracker/features/dashboard/features/add/presentation/add_screen.dart';
+import 'package:expense_tracker/features/dashboard/features/calender_view/presentation/calender_view.dart';
+import 'package:expense_tracker/features/dashboard/features/home/presentations/home_screen.dart';
+import 'package:expense_tracker/features/dashboard/features/profile/presentation/profile_screen.dart';
+import 'package:expense_tracker/features/dashboard/features/transactions/presentation/transactions_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 
 import '../../../auth/login/logics/login_bloc.dart';
-import '../../../auth/login/logics/login_event.dart';
 import '../../../auth/login/logics/login_state.dart';
+import '../../navigation/logics/navigation_cubit.dart';
+import '../../navigation/presentation/bottomnav.dart';
 
 class DashboardWrapper extends StatelessWidget {
   const DashboardWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
+    // retain status bar
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    // get the theme
+    final theme = Theme.of(context).colorScheme;
+
+    // change  status bar color
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: theme.surface,
+      statusBarIconBrightness: theme.brightness,
+      systemNavigationBarColor: Color.alphaBlend(
+        theme.primary.withOpacity(0.08), // Tint effect
+        theme.surface,
+      ),
+      systemNavigationBarIconBrightness: theme.brightness,
+    ));
+
+    return SafeArea(
+      child: Scaffold(
+        body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
           if (state is LoginLoading) {
             QuickAlert.show(
                 context: context,
@@ -37,22 +60,23 @@ class DashboardWrapper extends StatelessWidget {
                 title: 'Error',
                 text: state.error);
           }
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text('Dashboard'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<LoginBloc>(context).add(LogoutSubmitted());
-                },
-                child: const Text('Logout'))
-          ],
-        ),
-      )),
+        }, child: BlocBuilder<NavigationCubit, int>(builder: (context, state) {
+          List<Widget> screens = [
+            HomeScreen(),
+            TransactionsScreen(),
+            AddScreen(),
+            CalenderView(),
+            ProfileScreen(),
+          ];
+
+          return screens[BlocProvider.of<NavigationCubit>(context).state];
+        })),
+        bottomNavigationBar: BlocBuilder<NavigationCubit, int>(
+            bloc: BlocProvider.of<NavigationCubit>(context),
+            builder: (context, state) {
+              return CustomBottomNavbar(selectedIndex: state);
+            }),
+      ),
     );
   }
 }
