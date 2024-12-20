@@ -23,9 +23,9 @@ class CustomBottomNavbar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: NavigationBar(
-        surfaceTintColor: Theme.of(context).colorScheme.primary,
-        indicatorColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        surfaceTintColor: theme.primary,
+        indicatorColor: theme.primary,
+        backgroundColor: theme.surface,
         selectedIndex: currentIndex,
         onDestinationSelected: (int index) {
           BlocProvider.of<NavigationCubit>(context).changeIndex(index);

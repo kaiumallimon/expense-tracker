@@ -1,8 +1,5 @@
 import 'package:expense_tracker/features/dashboard/features/home/logics/home_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../repository/home_repository.dart';
 import 'home_event.dart';
 
