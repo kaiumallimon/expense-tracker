@@ -5,8 +5,11 @@ class CalenderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Calender View'),
+    // get the theme
+    final theme = Theme.of(context).colorScheme;
+    return Center(
+      child: Text('Coming soon',
+          style: TextStyle(fontSize: 20, color: theme.onSurface)),
     );
   }
 }
