@@ -62,11 +62,11 @@ class DashboardWrapper extends StatelessWidget {
           }
         }, child: BlocBuilder<NavigationCubit, int>(builder: (context, state) {
           List<Widget> screens = [
-            HomeScreen(),
+            const HomeScreen(),
             TransactionsScreen(),
-            AddScreen(),
-            CalenderView(),
-            ProfileScreen(),
+            const AddScreen(),
+            const CalenderView(),
+            const ProfileScreen(),
           ];
 
           return screens[BlocProvider.of<NavigationCubit>(context).state];
