@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/features/dashboard/features/home/repository/user_data_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../logics/home_bloc.dart';
 import '../logics/home_event.dart';
 import '../logics/home_state.dart';
 import '../repository/home_repository.dart';
+import 'report_chart.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -57,12 +61,25 @@ class HomeScreen extends StatelessWidget {
                         .add(HomeReloadRequested(uid: uid));
                   },
                   child: ListView(
+                    physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
                     children: [
                       _buildTopRow(theme, name),
                       const SizedBox(height: 30),
                       _buildCreditCard(theme, state.totalBalance, uid),
+                      const SizedBox(height: 30),
+
+                      // Display chart
+                      ReportChart(
+                          uid: uid,
+                          expenses: state.expenses,
+                          incomes: state.incomes),
+
+                      const SizedBox(height: 30),
+
+                      // Display latest transactions
+                      _buildLatestTransactions(theme, state.latestTransactions),
                     ],
                   ),
                 );
@@ -81,6 +98,89 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildLatestTransactions(
+      ColorScheme theme, List<Map<String, dynamic>> data) {
+    return Column(
+      children: [
+        Text('Latest Transactions',
+            style:
+                TextStyle(color: theme.primary, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 20),
+        ...data.map((transaction) {
+          final isExpense = transaction['type'] == 'expense';
+          final amount = transaction['amount'];
+          final description = transaction['description'];
+          final timestamp = transaction['timestamp'] != null
+              ? (transaction['timestamp'] as Timestamp).toDate()
+              : DateTime.now();
+
+          return Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.history, color: theme.primary),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transaction['type'].toString().toUpperCase(),
+                        style: TextStyle(
+                          color: transaction['type'] == 'expense'
+                              ? theme.error
+                              : theme.secondary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        transaction['type'] == 'expense'
+                            ? ' - BDT ${transaction['amount']}'
+                            : '+ BDT ${transaction['amount']}',
+                        style: TextStyle(
+                          color: transaction['type'] == 'expense'
+                              ? theme.error
+                              : CupertinoColors.activeGreen,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        transaction['description'],
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: theme.onSurface.withOpacity(.5),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Row(
+                  children: [
+                    Text(
+                        '${timestamp.day}/${timestamp.month}/${timestamp.year}'),
+                  ],
+                ),
+              ],
+            ),
+          );
+        })
+      ],
+    );
+  }
+
   Widget _buildCreditCard(ColorScheme theme, double totalBalance, String uid) {
     return Container(
       width: double.infinity,
@@ -96,9 +196,9 @@ class HomeScreen extends StatelessWidget {
         // Add shadow
         boxShadow: [
           BoxShadow(
-            color: theme.primary.withOpacity(.5),
+            color: theme.primary.withOpacity(.4),
             blurRadius: 100,
-            spreadRadius: 2,
+            spreadRadius: 5,
             offset: const Offset(0, 5),
           ),
         ],
