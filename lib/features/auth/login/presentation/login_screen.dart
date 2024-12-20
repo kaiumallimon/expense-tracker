@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
 
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return DashboardWrapper();
+              return const DashboardWrapper();
             }));
           } else if (state is LoginFailure) {
             // hide the loading dialog
