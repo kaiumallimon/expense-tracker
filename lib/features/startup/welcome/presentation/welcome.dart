@@ -1,6 +1,5 @@
 import 'package:expense_tracker/common/widgets/custombutton.dart';
 import 'package:expense_tracker/features/auth/login/presentation/login_screen.dart';
-import 'package:expense_tracker/features/auth/register/presentation/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
