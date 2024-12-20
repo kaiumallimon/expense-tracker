@@ -26,6 +26,8 @@ class _TransactionsViewState extends State<TransactionsView> {
   String _selectedFilter = 'All'; // Default filter
   List<Map<String, dynamic>> _transactions =
       []; // To hold all fetched transactions
+  TextEditingController _searchController = TextEditingController();
+  String _searchText = '';
 
   void _onFilterSelected(String filter) {
     setState(() {
@@ -39,17 +41,50 @@ class _TransactionsViewState extends State<TransactionsView> {
 
   List<Map<String, dynamic>> _getFilteredTransactions(
       List<Map<String, dynamic>> transactions) {
+    List<Map<String, dynamic>> filteredTransactions = transactions;
+
     // Filter transactions based on the selected filter
     if (_selectedFilter == 'Income') {
-      return transactions
+      filteredTransactions = transactions
           .where((transaction) => transaction['type'] == 'income')
           .toList();
     } else if (_selectedFilter == 'Expense') {
-      return transactions
+      filteredTransactions = transactions
           .where((transaction) => transaction['type'] == 'expense')
           .toList();
     }
-    return transactions; // Return all if no specific filter is selected
+
+    // Further filter transactions based on search text for various fields
+    if (_searchText.isNotEmpty) {
+      filteredTransactions = filteredTransactions.where((transaction) {
+        // Check if any field contains the search text (case-insensitive)
+        return transaction['description']
+                .toLowerCase()
+                .contains(_searchText.toLowerCase()) ||
+            transaction['amount'].toString().contains(_searchText) ||
+            (transaction['timestamp'] is Timestamp
+                ? (transaction['timestamp'] as Timestamp)
+                    .toDate()
+                    .toString()
+                    .contains(_searchText)
+                : false);
+      }).toList();
+    }
+
+    // Further filter transactions based on date if applicable
+    DateTime? searchDate = DateTime.tryParse(_searchText);
+    if (searchDate != null) {
+      filteredTransactions = filteredTransactions.where((transaction) {
+        final timestamp = transaction['timestamp'] is Timestamp
+            ? (transaction['timestamp'] as Timestamp).toDate()
+            : DateTime.now();
+        return timestamp.year == searchDate.year &&
+            timestamp.month == searchDate.month &&
+            timestamp.day == searchDate.day;
+      }).toList();
+    }
+
+    return filteredTransactions;
   }
 
   @override
@@ -63,7 +98,7 @@ class _TransactionsViewState extends State<TransactionsView> {
         } else if (state is TransactionsSuccess) {
           _transactions = state.transactions;
 
-          // Filter transactions based on selected filter
+          // Filter transactions based on selected filter and search text
           final filteredTransactions = _getFilteredTransactions(_transactions);
 
           return Padding(
@@ -78,6 +113,22 @@ class _TransactionsViewState extends State<TransactionsView> {
                     fontWeight: FontWeight.bold,
                     color: theme.primary,
                   ),
+                ),
+                const SizedBox(height: 20),
+
+                // Search Field
+                CupertinoSearchTextField(
+                  controller: _searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      _searchText = value;
+                    });
+                  },
+                  placeholder: 'Search transactions',
+                  prefixIcon: Icon(CupertinoIcons.search, color: theme.primary),
+                  padding: const EdgeInsets.all(10),
+                  suffixIcon:
+                      Icon(Icons.clear_rounded, color: theme.error, size: 20),
                 ),
                 const SizedBox(height: 20),
 
