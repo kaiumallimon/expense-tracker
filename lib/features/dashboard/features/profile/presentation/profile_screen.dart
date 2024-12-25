@@ -5,6 +5,7 @@ import 'package:expense_tracker/features/auth/login/repository/login_repository.
 import 'package:expense_tracker/features/dashboard/features/home/repository/user_data_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../auth/login/logics/login_state.dart';
 import '../../../../auth/login/presentation/login_screen.dart';
@@ -65,7 +66,18 @@ class ProfileScreen extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      )
+                          .animate()
+                          .fade(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 800),
+                          )
+                          .scaleXY(
+                            begin: 0.9,
+                            end: 1.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 800),
+                          ),
                       // IconButton(
                       //   onPressed: () {
                       //     // Toggle the theme using the ThemeCubit
@@ -92,7 +104,18 @@ class ProfileScreen extends StatelessWidget {
                       width: 100,
                       height: 100,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 15),
 
@@ -103,7 +126,18 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         height: 1),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 10),
 
@@ -114,7 +148,18 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         height: 1),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 30),
 
@@ -130,7 +175,18 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 20),
 
@@ -156,7 +212,18 @@ class ProfileScreen extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           height: 1),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 10),
 
@@ -182,7 +249,18 @@ class ProfileScreen extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           height: 1),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 30),
 
@@ -198,7 +276,18 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 20),
 
@@ -225,7 +314,18 @@ class ProfileScreen extends StatelessWidget {
                         context.read<ThemeCubit>().toggleTheme();
                       },
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 30),
 
@@ -241,21 +341,43 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      ),
 
                   const SizedBox(height: 20),
 
                   CustomButton(
-                      width: double.infinity,
-                      height: 50,
-                      text: "Log out",
-                      onPressed: () {
-                        BlocProvider.of<LoginBloc>(context)
-                            .add(LogoutSubmitted());
-                      },
-                      color: theme.error,
-                      textColor: theme.onError,
-                      isBordered: false)
+                          width: double.infinity,
+                          height: 50,
+                          text: "Log out",
+                          onPressed: () {
+                            BlocProvider.of<LoginBloc>(context)
+                                .add(LogoutSubmitted());
+                          },
+                          color: theme.error,
+                          textColor: theme.onError,
+                          isBordered: false)
+                      .animate()
+                      .fade(
+                        curve: Curves.easeIn,
+                        duration: const Duration(milliseconds: 800),
+                      )
+                      .scaleXY(
+                        begin: 0.9,
+                        end: 1.0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 800),
+                      )
                 ],
               ),
             );
