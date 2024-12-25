@@ -2,7 +2,6 @@
 A comprehensive expense tracker application
 . This application helps you manage and track your expenses efficiently. Whether you're looking to manage your budgets or simply keep track of your spending habits, ExSync provides all the tools you need to stay on top of your finances.
 
-
 ## Key Features
 - **Smooth Transitions**: Smooth transitions enhance the user experience by providing a visually appealing and fluid interaction when navigating through different parts of the application. This can include animations, fade-ins, slide-ins, and other effects that make the UI feel more responsive and polished.
 - **Secure Authentication**: A robust and secure login system to protect user data and ensure safe access.
@@ -13,6 +12,11 @@ A comprehensive expense tracker application
 - **Comprehensive Reports**: Detailed reports offering in-depth analysis of your finances, including summaries and trends.
 - **Day-wise Calendar View**: A convenient calendar view that helps you track your expenses on a daily basis for better budgeting and planning.
 
+## Demo Screenshots
+![Login](https://github.com/kaiumallimon/exsync/blob/main/assets/images/login.png?raw=true)
+![Home](https://github.com/kaiumallimon/exsync/blob/main/assets/images/home.png?raw=true)
+![Txns](https://github.com/kaiumallimon/exsync/blob/main/assets/images/txns.png?raw=true)
+![Track](https://github.com/kaiumallimon/exsync/blob/main/assets/images/track.png?raw=true)
 
 ## Project Structure
 ```bash
