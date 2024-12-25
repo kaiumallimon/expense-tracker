@@ -28,28 +28,24 @@ class CustomBottomNavbar extends StatelessWidget {
       onDestinationSelected: (int index) {
         BlocProvider.of<NavigationCubit>(context).changeIndex(index);
       },
-      destinations: <Widget>[
-        const NavigationDestination(
+      destinations: const <Widget>[
+        NavigationDestination(
           icon: Icon(Icons.home_filled),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Image.asset(
-            'assets/icons/transaction.png',
-            width: 24,
-            color: selectedIndex == 1 ? theme.onPrimary : theme.onSurface,
-          ),
+          icon: Icon(Icons.history),
           label: 'Txns',
         ),
-        const NavigationDestination(
+        NavigationDestination(
           icon: Icon(Icons.add),
           label: 'Add',
         ),
-        const NavigationDestination(
+        NavigationDestination(
           icon: Icon(Icons.calendar_month),
           label: 'Track',
         ),
-        const NavigationDestination(
+        NavigationDestination(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
