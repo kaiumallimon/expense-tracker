@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/features/dashboard/features/home/repository/user_data_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../logics/home_bloc.dart';
 import '../logics/home_event.dart';
@@ -22,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       future: UserDataRepository().getUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return _buildShimmerEffect(theme); // Show shimmer while loading
         }
 
         if (!snapshot.hasData || snapshot.data == null) {
@@ -51,7 +54,7 @@ class HomeScreen extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is HomeLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return _buildShimmerEffect(theme); // Show shimmer while loading
               }
 
               if (state is HomeSuccess) {
@@ -65,21 +68,65 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 10),
                     children: [
-                      _buildTopRow(theme, name),
+                      _buildTopRow(theme, name)
+                          .animate()
+                          .fade(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                          )
+                          .scaleXY(
+                            begin: 0.9,
+                            end: 1.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 500),
+                          ),
                       const SizedBox(height: 30),
-                      _buildCreditCard(theme, state.totalBalance, uid),
+                      _buildCreditCard(theme, state.totalBalance, uid)
+                          .animate()
+                          .fade(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                          )
+                          .scaleXY(
+                            begin: 0.9,
+                            end: 1.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 500),
+                          ),
                       const SizedBox(height: 30),
 
                       // Display chart
                       ReportChart(
-                          uid: uid,
-                          expenses: state.expenses,
-                          incomes: state.incomes),
+                              uid: uid,
+                              expenses: state.expenses,
+                              incomes: state.incomes)
+                          .animate()
+                          .fade(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                          )
+                          .scaleXY(
+                            begin: 0.9,
+                            end: 1.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 500),
+                          ),
 
                       const SizedBox(height: 30),
 
                       // Display latest transactions
-                      _buildLatestTransactions(theme, state.latestTransactions),
+                      _buildLatestTransactions(theme, state.latestTransactions)
+                          .animate()
+                          .fade(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                          )
+                          .scaleXY(
+                            begin: 0.9,
+                            end: 1.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 500),
+                          ),
                     ],
                   ),
                 );
@@ -95,6 +142,83 @@ class HomeScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  // Method to build shimmer effect for loading
+  Widget _buildShimmerEffect(ColorScheme theme) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      children: [
+        Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7), // Darker base color
+          highlightColor:
+              theme.primary.withOpacity(1.0), // Lighter highlight color
+          child: Container(
+            width: double.infinity,
+            height: 80,
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7), // Darker base color
+          highlightColor:
+              theme.primary.withOpacity(1.0), // Lighter highlight color
+          child: Container(
+            width: double.infinity,
+            height: 120,
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7), // Darker base color
+          highlightColor:
+              theme.primary.withOpacity(1.0), // Lighter highlight color
+          child: Container(
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7), // Darker base color
+          highlightColor:
+              theme.primary.withOpacity(1.0), // Lighter highlight color
+          child: Container(
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7), // Darker base color
+          highlightColor:
+              theme.primary.withOpacity(1.0), // Lighter highlight color
+          child: Container(
+            width: double.infinity,
+            height: 500,
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
