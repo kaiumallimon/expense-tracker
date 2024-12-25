@@ -45,7 +45,6 @@ class ForgotPasswordScreen extends StatelessWidget {
               barrierDismissible: false,
               onConfirmBtnTap: () {
                 Navigator.pop(context);
-                Navigator.pop(context);
               },
             );
           }
