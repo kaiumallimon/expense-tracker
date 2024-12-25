@@ -1,3 +1,4 @@
+import 'package:expense_tracker/features/dashboard/features/calender_view/logics/calender_view_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expense_tracker/common/theme/theming.dart';
@@ -43,7 +44,7 @@ class ExSyncApp extends StatelessWidget {
         BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
         // Provide the ThemeCubit
         BlocProvider<ThemeCubit>(create: (context) => themeCubit),
-        
+        BlocProvider<CalenderViewBloc>(create: (context) => CalenderViewBloc())
       ],
       child: BlocBuilder<ThemeCubit, bool>(
         builder: (context, darkMode) {
