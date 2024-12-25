@@ -9,11 +9,11 @@ s
 
 
     <application
-        android:label="ExSync"
+        android:label="Exsync"
         android:name="${applicationName}"
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher_2">
         <activity
             android:name=".MainActivity"
             android:exported="true"
