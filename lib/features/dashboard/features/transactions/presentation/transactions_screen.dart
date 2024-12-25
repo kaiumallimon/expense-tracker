@@ -1,24 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../logics/transactions_bloc.dart';
 import '../logics/transactions_event.dart';
 import '../logics/transactions_state.dart';
 
 class TransactionsScreen extends StatelessWidget {
+  const TransactionsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
           TransactionsBloc()..add(FetchTransactions(filter: 'All', limit: 10)),
-      child: TransactionsView(),
+      child: const TransactionsView(),
     );
   }
 }
 
 class TransactionsView extends StatefulWidget {
+  const TransactionsView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _TransactionsViewState createState() => _TransactionsViewState();
 }
 
@@ -26,7 +33,7 @@ class _TransactionsViewState extends State<TransactionsView> {
   String _selectedFilter = 'All'; // Default filter
   List<Map<String, dynamic>> _transactions =
       []; // To hold all fetched transactions
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchText = '';
 
   void _onFilterSelected(String filter) {
@@ -94,7 +101,7 @@ class _TransactionsViewState extends State<TransactionsView> {
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         if (state is TransactionsLoading) {
-          return Center(child: CircularProgressIndicator());
+          return _buildShimmerEffect(theme);
         } else if (state is TransactionsSuccess) {
           _transactions = state.transactions;
 
@@ -113,7 +120,18 @@ class _TransactionsViewState extends State<TransactionsView> {
                     fontWeight: FontWeight.bold,
                     color: theme.primary,
                   ),
-                ),
+                )
+                    .animate()
+                    .fade(
+                      curve: Curves.easeIn,
+                      duration: const Duration(milliseconds: 800),
+                    )
+                    .scaleXY(
+                      begin: 0.9,
+                      end: 1.0,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 800),
+                    ),
                 const SizedBox(height: 20),
 
                 // Search Field
@@ -129,7 +147,18 @@ class _TransactionsViewState extends State<TransactionsView> {
                   padding: const EdgeInsets.all(10),
                   suffixIcon:
                       Icon(Icons.clear_rounded, color: theme.error, size: 20),
-                ),
+                )
+                    .animate()
+                    .fade(
+                      curve: Curves.easeIn,
+                      duration: const Duration(milliseconds: 800),
+                    )
+                    .scaleXY(
+                      begin: 0.9,
+                      end: 1.0,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 800),
+                    ),
                 const SizedBox(height: 20),
 
                 // Filter Row - Add options here
@@ -154,12 +183,35 @@ class _TransactionsViewState extends State<TransactionsView> {
                       onPressed: () => _onFilterSelected('Expense'),
                     ),
                   ],
-                ),
+                )
+                    .animate()
+                    .fade(
+                      curve: Curves.easeIn,
+                      duration: const Duration(milliseconds: 800),
+                    )
+                    .scaleXY(
+                      begin: 0.9,
+                      end: 1.0,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 800),
+                    ),
                 const SizedBox(height: 20),
 
                 filteredTransactions.isEmpty
                     ? const Expanded(
-                        child: Center(child: Text('No transactions found.')))
+                            child:
+                                Center(child: Text('No transactions found.')))
+                        .animate()
+                        .fade(
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 800),
+                        )
+                        .scaleXY(
+                          begin: 0.9,
+                          end: 1.0,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 800),
+                        )
                     : Expanded(
                         child: ListView.builder(
                           itemCount: filteredTransactions.length,
@@ -242,14 +294,69 @@ class _TransactionsViewState extends State<TransactionsView> {
                             );
                           },
                         ),
-                      ),
+                      )
+                        .animate()
+                        .fade(
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 800),
+                        )
+                        .scaleXY(
+                          begin: 0.9,
+                          end: 1.0,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 800),
+                        ),
               ],
             ),
           );
         } else if (state is TransactionsFailure) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(child: Text('Error: ${state.message}'))
+              .animate()
+              .fade(
+                curve: Curves.easeIn,
+                duration: const Duration(milliseconds: 800),
+              )
+              .scaleXY(
+                begin: 0.9,
+                end: 1.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 800),
+              );
         }
-        return Center(child: Text('No data available.'));
+        return Center(child: Text('No data available.'))
+            .animate()
+            .fade(
+              curve: Curves.easeIn,
+              duration: const Duration(milliseconds: 800),
+            )
+            .scaleXY(
+              begin: 0.9,
+              end: 1.0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 800),
+            );
+      },
+    );
+  }
+
+  Widget _buildShimmerEffect(ColorScheme theme) {
+    return ListView.builder(
+      itemCount: 10, // Show 10 shimmer placeholders
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: theme.primary.withOpacity(0.7),
+          highlightColor: theme.primary.withOpacity(1),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: theme.primary.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: 80,
+          ),
+        );
       },
     );
   }
